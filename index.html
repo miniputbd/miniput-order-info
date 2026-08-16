@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Miniput — Delivery & Order Information</title>
+  <meta name="description" content="Miniput delivery timeline, delivery charges and simple ordering information.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Miniput — Delivery & Order Information">
+  <meta property="og:description" content="Delivery timeline, delivery charges and ordering information.">
+  <meta property="og:image" content="https://miniputbd.github.io/miniput-order-info/miniput-delivery-order-thumbnail.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="1200">
+  <meta property="og:image:alt" content="Miniput Delivery & Order Information">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Miniput — Delivery & Order Information">
+  <meta name="twitter:description" content="Delivery timeline, delivery charges and ordering information.">
+  <meta name="twitter:image" content="https://miniputbd.github.io/miniput-order-info/miniput-delivery-order-thumbnail.jpg">
+
+  <link rel="icon" type="image/png" href="./miniput-logo.png">
+
+  <style>
+    :root{
+      --cream:#f7f0e4;
+      --card:#fffdf9;
+      --brown:#62422f;
+      --brown-deep:#4f3425;
+      --sage:#8b9d87;
+      --sage-light:#e7eee1;
+      --peach:#f3e4d6;
+      --text:#34312d;
+      --muted:#77736d;
+      --line:#e6dfd4;
+      --white:#fff;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--cream);
+      color:var(--text);
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Bengali",sans-serif;
+      line-height:1.55;
+    }
+    a{color:inherit}
+    .page{
+      width:min(100%,760px);
+      margin:0 auto;
+      padding:22px 18px 42px;
+    }
+    .top{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:14px;
+      margin-bottom:34px;
+    }
+    .brand{
+      display:block;
+      width:min(230px,62vw);
+      height:auto;
+      object-fit:contain;
+    }
+    .lang-toggle{
+      display:flex;
+      align-items:center;
+      gap:4px;
+      padding:4px;
+      border:1px solid #ddd5c9;
+      border-radius:999px;
+      background:#fffdf9;
+      box-shadow:0 8px 22px rgba(75,53,36,.08);
+    }
+    .lang-toggle button{
+      border:0;
+      background:transparent;
+      color:#716c65;
+      font:600 16px/1 system-ui,-apple-system,"Segoe UI","Noto Sans Bengali",sans-serif;
+      padding:11px 20px;
+      min-width:102px;
+      border-radius:999px;
+      cursor:pointer;
+    }
+    .lang-toggle button.active{
+      background:var(--brown);
+      color:#fff;
+    }
+    .hero{text-align:center;margin:0 0 42px}
+    .hero h1{
+      margin:0;
+      color:var(--brown-deep);
+      font-size:clamp(38px,8vw,62px);
+      line-height:1.02;
+      letter-spacing:-1.8px;
+      font-weight:800;
+    }
+    .hero p{
+      max-width:650px;
+      margin:22px auto 0;
+      color:var(--muted);
+      font-size:clamp(17px,4vw,21px);
+      line-height:1.7;
+    }
+    .section{margin:0 0 36px}
+    .section-title{
+      color:var(--sage);
+      font-size:18px;
+      font-weight:800;
+      margin:0 0 13px;
+    }
+    .timeline-card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:28px;
+      padding:28px 28px 26px;
+      margin-bottom:16px;
+      box-shadow:0 8px 25px rgba(72,53,38,.035);
+    }
+    .timeline-card.urgent{background:#fffaf5}
+    .pill{
+      display:inline-block;
+      padding:6px 14px;
+      border-radius:999px;
+      background:var(--sage-light);
+      color:#536450;
+      font-weight:800;
+      font-size:15px;
+      margin-bottom:16px;
+    }
+    .urgent .pill{background:var(--peach);color:var(--brown)}
+    .days{
+      color:var(--brown);
+      font-size:clamp(45px,10vw,62px);
+      font-weight:850;
+      letter-spacing:-2px;
+      line-height:1;
+      margin-bottom:16px;
+    }
+    .days span{font-size:.36em;letter-spacing:-.5px}
+    .timeline-card p{
+      margin:0;
+      color:#77736d;
+      font-size:18px;
+      line-height:1.65;
+    }
+    .mini-wall{
+      background:#edf2e8;
+      border-left:4px solid var(--sage);
+      border-radius:20px;
+      padding:18px 20px;
+      margin-top:18px;
+    }
+    .mini-wall strong{display:block;color:var(--brown);font-size:17px;margin-bottom:5px}
+    .mini-wall span{color:#716d67;font-size:16px}
+    .note{
+      margin-top:14px;
+      color:#77736d;
+      font-size:15px;
+      line-height:1.65;
+    }
+    .note strong{color:var(--brown)}
+    .courier-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:13px;
+    }
+    .courier-head .section-title{margin:0}
+    .courier-name{color:var(--sage);font-weight:800;font-size:17px}
+    .table-wrap{
+      overflow:hidden;
+      border-radius:24px;
+      border:1px solid var(--line);
+      background:var(--card);
+    }
+    table{width:100%;border-collapse:collapse}
+    th,td{text-align:left;padding:17px 16px;border-bottom:1px solid var(--line);font-size:16px}
+    th{background:#f3eee6;color:var(--brown);font-weight:800}
+    tr:last-child td{border-bottom:0}
+    .courier-note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      background:#edf2e8;
+      color:#5e6d59;
+      font-size:14px;
+      line-height:1.55;
+    }
+    .steps{display:grid;gap:14px}
+    .step{
+      display:grid;
+      grid-template-columns:58px 1fr;
+      gap:18px;
+      align-items:start;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:25px;
+      padding:18px;
+    }
+    .num{
+      width:50px;height:50px;
+      display:grid;place-items:center;
+      border-radius:50%;
+      background:var(--brown);
+      color:#fff;
+      font-weight:800;
+      font-size:16px;
+    }
+    .step h3{margin:1px 0 6px;color:#302d2a;font-size:19px}
+    .step p{margin:0;color:#77736d;font-size:16px;line-height:1.65}
+    .care{
+      background:var(--brown);
+      color:#fff;
+      border-radius:28px;
+      padding:28px;
+      margin-top:20px;
+    }
+    .care .eyebrow{
+      font-size:13px;letter-spacing:1.8px;font-weight:850;opacity:.9;margin-bottom:8px
+    }
+    .care h2{font-size:clamp(28px,6vw,40px);line-height:1.15;margin:0 0 14px}
+    .care p{margin:0;color:#f4ede5;font-size:17px;line-height:1.75}
+    .trust-grid{display:grid;gap:13px}
+    .trust{
+      display:flex;
+      align-items:center;
+      gap:16px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px 20px;
+      text-decoration:none;
+    }
+    .trust-icon{
+      width:50px;height:50px;flex:0 0 50px;
+      display:grid;place-items:center;
+      border-radius:17px;background:var(--sage-light);
+      color:var(--brown);font-weight:900;
+    }
+    .trust-main{flex:1}
+    .trust-main strong{display:block;font-size:18px;color:#302d2a}
+    .trust-main span{display:block;color:#77736d;font-size:15px;margin-top:3px}
+    .arrow{font-size:22px;color:var(--brown)}
+    footer{
+      margin-top:38px;
+      padding-top:25px;
+      border-top:1px solid #ded6ca;
+      text-align:center;
+    }
+    .footer-links{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+    }
+    .social{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 12px;
+      border-radius:999px;
+      background:#fffdf9;
+      border:1px solid var(--line);
+      text-decoration:none;
+      color:var(--brown);
+      font-size:14px;
+      font-weight:700;
+    }
+    .social svg{width:18px;height:18px}
+    .footer-note{margin:14px 0 0;color:#99938b;font-size:12px}
+    @media (max-width:520px){
+      .page{padding:18px 16px 34px}
+      .timeline-card{padding:24px 22px}
+      .step{grid-template-columns:50px 1fr;gap:13px}
+      .num{width:44px;height:44px}
+      th,td{padding:14px 11px;font-size:14px}
+      .courier-head{align-items:flex-end}
+      .courier-name{font-size:14px}
+    }
+  </style>
+</head>
+
+<body>
+<main class="page">
+  <header class="top">
+    <img class="brand" src="./miniput-logo.png" alt="Miniput">
+    <div class="lang-toggle" aria-label="Language">
+      <button id="bnBtn" class="active" type="button">বাংলা</button>
+      <button id="enBtn" type="button">English</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <h1 data-bn="Delivery & Order Information" data-en="Delivery & Order Information">Delivery & Order Information</h1>
+    <p data-bn="আপনার Miniput order-এর সময়সীমা, Delivery Charge এবং order করার সহজ নিয়ম এক জায়গায়।"
+       data-en="Your Miniput order timeline, delivery charges and simple ordering steps — all in one place.">
+      আপনার Miniput order-এর সময়সীমা, Delivery Charge এবং order করার সহজ নিয়ম এক জায়গায়।
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" data-bn="Product তৈরি হতে কত সময় লাগে?" data-en="How long does production take?">Product তৈরি হতে কত সময় লাগে?</h2>
+
+    <article class="timeline-card">
+      <span class="pill">Standard</span>
+      <div class="days">10–12 <span>days</span></div>
+      <p data-bn="Shadow Box তৈরি করে এই সময়ের মধ্যে courier-এ দেওয়া হবে।"
+         data-en="Your Shadow Box will be created and handed over to the courier within this timeframe.">
+        Shadow Box তৈরি করে এই সময়ের মধ্যে courier-এ দেওয়া হবে।
+      </p>
+    </article>
+
+    <article class="timeline-card urgent">
+      <span class="pill">Urgent</span>
+      <div class="days">1–3 <span>days</span></div>
+      <p data-bn="Shadow Box তৈরি করে এই সময়ের মধ্যে courier-এ দেওয়া হবে। Urgent option নিলে product price-এর সাথে 15% Urgent Charge যোগ হবে।"
+         data-en="Your Shadow Box will be created and handed over to the courier within this timeframe. The Urgent option adds a 15% Urgent Charge to the product price.">
+        Shadow Box তৈরি করে এই সময়ের মধ্যে courier-এ দেওয়া হবে। Urgent option নিলে product price-এর সাথে 15% Urgent Charge যোগ হবে।
+      </p>
+    </article>
+
+    <div class="mini-wall">
+      <strong data-bn="Mini Wall-এর Production Timeline" data-en="Mini Wall Production Timeline">Mini Wall-এর Production Timeline</strong>
+      <span data-bn="Standard: 6–8 days · Urgent: 1–3 days"
+            data-en="Standard: 6–8 days · Urgent: 1–3 days">Standard: 6–8 days · Urgent: 1–3 days</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="courier-head">
+      <h2 class="section-title" data-bn="Delivery Charge" data-en="Delivery Charge">Delivery Charge</h2>
+      <div class="courier-name">of Pathao Courier</div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th data-bn="Product" data-en="Product">Product</th>
+            <th data-bn="Inside Chattogram" data-en="Inside Chattogram">Inside Chattogram</th>
+            <th data-bn="Outside Chattogram" data-en="Outside Chattogram">Outside Chattogram</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Mini Wall</td><td>80৳</td><td>120৳</td></tr>
+          <tr><td>Standard Shadow Box</td><td>100৳</td><td>150৳</td></tr>
+          <tr><td>Classic / Grand</td><td>150৳</td><td>200৳</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="courier-note" data-bn="Courier পরিবর্তন হলে Delivery Charge-ও পরিবর্তিত হতে পারে।"
+         data-en="Delivery charges may change if a different courier service is used.">
+      Courier পরিবর্তন হলে Delivery Charge-ও পরিবর্তিত হতে পারে।
+    </div>
+
+    <p class="note" data-bn="উপরের তালিকায় উল্লেখ না থাকা কোনো size-এর Delivery Charge product-এর size, weight ও delivery location অনুযায়ী নির্ধারিত হবে।"
+       data-en="For sizes not listed above, the Delivery Charge is determined by the product size, weight and delivery location.">
+      উপরের তালিকায় উল্লেখ না থাকা কোনো size-এর Delivery Charge product-এর size, weight ও delivery location অনুযায়ী নির্ধারিত হবে।
+    </p>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" data-bn="How to Order" data-en="How to Order">How to Order</h2>
+
+    <div class="steps">
+      <article class="step">
+        <div class="num">01</div>
+        <div>
+          <h3 data-bn="Design বেছে নিন" data-en="Choose your design">Design বেছে নিন</h3>
+          <p data-bn="আপনার পছন্দের design/code আমাদের জানান।"
+             data-en="Tell us your preferred design/code.">আপনার পছন্দের design/code আমাদের জানান।</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">02</div>
+        <div>
+          <h3 data-bn="প্রয়োজনীয় ছবি ও তথ্য দিন" data-en="Send the required photos & details">প্রয়োজনীয় ছবি ও তথ্য দিন</h3>
+          <p data-bn="Product অনুযায়ী প্রয়োজনীয় ছবি ও তথ্য আমাদের WhatsApp-এ পাঠান।"
+             data-en="Send the required photos and details to us via WhatsApp.">Product অনুযায়ী প্রয়োজনীয় ছবি ও তথ্য আমাদের WhatsApp-এ পাঠান।</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">03</div>
+        <div>
+          <h3 data-bn="Order confirm করুন" data-en="Confirm your order">Order confirm করুন</h3>
+          <p data-bn="আপনার selected size অনুযায়ী নির্ধারিত advance amount আমাদের representative জানিয়ে দেবেন।"
+             data-en="Our representative will let you know the required advance amount for your selected size.">আপনার selected size অনুযায়ী নির্ধারিত advance amount আমাদের representative জানিয়ে দেবেন।</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">04</div>
+        <div>
+          <h3 data-bn="আমরা তৈরি শুরু করি" data-en="We start creating">আমরা তৈরি শুরু করি</h3>
+          <p data-bn="প্রয়োজনীয় ছবি ও তথ্য পাওয়ার পর আপনার customized product-এর production শুরু হবে।"
+             data-en="Production of your customized product begins once we receive the required photos and details.">প্রয়োজনীয় ছবি ও তথ্য পাওয়ার পর আপনার customized product-এর production শুরু হবে।</p>
+        </div>
+      </article>
+
+      <article class="step">
+        <div class="num">05</div>
+        <div>
+          <h3 data-bn="আপনার জন্য তৈরি" data-en="Created for you">আপনার জন্য তৈরি</h3>
+          <p data-bn="আপনার design অনুযায়ী সম্পূর্ণ product তৈরি করে courier-এ দেওয়ার আগে আপনাকে ছবি দেখানো হবে।"
+             data-en="Once your product is fully created according to your design, we will share a photo with you before handing it over to the courier.">আপনার design অনুযায়ী সম্পূর্ণ product তৈরি করে courier-এ দেওয়ার আগে আপনাকে ছবি দেখানো হবে।</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="care">
+      <div class="eyebrow">CUSTOMIZED WITH CARE</div>
+      <h2 data-bn="আপনার জন্য আলাদাভাবে তৈরি" data-en="Made especially for you">আপনার জন্য আলাদাভাবে তৈরি</h2>
+      <p data-bn="আপনার ছবি, তথ্য ও পছন্দ অনুযায়ী প্রতিটি customized product আলাদাভাবে তৈরি করা হয়। তাই প্রয়োজনীয় তথ্য ও advance payment পাওয়ার পর orderটি production-এর জন্য confirmed হয়।"
+         data-en="Every customized product is made individually using your photos, details and preferences. That is why an order is confirmed for production after receiving the required information and advance payment.">
+        আপনার ছবি, তথ্য ও পছন্দ অনুযায়ী প্রতিটি customized product আলাদাভাবে তৈরি করা হয়। তাই প্রয়োজনীয় তথ্য ও advance payment পাওয়ার পর orderটি production-এর জন্য confirmed হয়।
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" data-bn="Miniput in the Media" data-en="Miniput in the Media">Miniput in the Media</h2>
+    <div class="trust-grid">
+      <a class="trust" href="https://www.facebook.com/share/v/1Eg7a78MgK/" target="_blank" rel="noopener">
+        <div class="trust-icon">TV</div>
+        <div class="trust-main">
+          <strong data-bn="News Feature" data-en="News Feature">News Feature</strong>
+          <span data-bn="Miniput-এর media coverage দেখুন।" data-en="Watch Miniput's media coverage.">Miniput-এর media coverage দেখুন।</span>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title" data-bn="Reviews & Customer Feedback" data-en="Reviews & Customer Feedback">Reviews & Customer Feedback</h2>
+    <div class="trust-grid">
+      <a class="trust" href="https://www.facebook.com/share/g/1C4jhCBTZQ/" target="_blank" rel="noopener">
+        <div class="trust-icon">♥</div>
+        <div class="trust-main">
+          <strong data-bn="Customer Reviews" data-en="Customer Reviews">Customer Reviews</strong>
+          <span data-bn="আমাদের reviews ও customer feedback দেখুন।" data-en="See our reviews and customer feedback.">আমাদের reviews ও customer feedback দেখুন।</span>
+        </div>
+        <div class="arrow">→</div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a class="social" href="https://miniput.store" target="_blank" rel="noopener" aria-label="Miniput website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>
+        miniput.store
+      </a>
+      <a class="social" href="https://www.facebook.com/miniput" target="_blank" rel="noopener" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3V11H7.3v3h2.8v8h3.4z"/></svg>
+        Miniput
+      </a>
+      <a class="social" href="https://www.instagram.com/miniputcrafts" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        miniputcrafts
+      </a>
+    </div>
+    <p class="footer-note">Miniput · a lot in a little</p>
+  </footer>
+</main>
+
+<script>
+  const bnBtn = document.getElementById('bnBtn');
+  const enBtn = document.getElementById('enBtn');
+  const nodes = document.querySelectorAll('[data-bn][data-en]');
+
+  function setLanguage(lang){
+    document.documentElement.lang = lang === 'bn' ? 'bn' : 'en';
+    nodes.forEach(el => {
+      el.textContent = lang === 'bn' ? el.dataset.bn : el.dataset.en;
+    });
+    bnBtn.classList.toggle('active', lang === 'bn');
+    enBtn.classList.toggle('active', lang === 'en');
+    localStorage.setItem('miniput-lang', lang);
+  }
+
+  bnBtn.addEventListener('click', () => setLanguage('bn'));
+  enBtn.addEventListener('click', () => setLanguage('en'));
+
+  const saved = localStorage.getItem('miniput-lang');
+  setLanguage(saved === 'en' ? 'en' : 'bn');
+</script>
+</body>
+</html>
